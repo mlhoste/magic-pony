@@ -14,6 +14,9 @@ public class Session {
 
     private Date endDate;
 
+    @OneToOne
+    private Club club;
+
     @OneToMany
     private List<Instructor> instructorList = new ArrayList<>(1);
 

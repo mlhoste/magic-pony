@@ -1,9 +1,6 @@
 package com.mlhoste.magicpony.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Pony {
@@ -15,6 +12,9 @@ public class Pony {
     private String name;
 
     private String surName;
+
+    @OneToOne
+    private Club club;
 
     protected Pony() {
     }

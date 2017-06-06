@@ -8,11 +8,14 @@ public abstract class Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
-    protected Integer id;
+    private Integer id;
 
-    protected String firstName;
+    private String firstName;
 
-    protected String lastName;
+    private String lastName;
+
+    @OneToOne
+    private Club club;
 
     public Integer getId() {
         return id;
@@ -36,5 +39,13 @@ public abstract class Person {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public Club getClub() {
+        return club;
+    }
+
+    public void setClub(Club club) {
+        this.club = club;
     }
 }
