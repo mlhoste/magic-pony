@@ -5,34 +5,54 @@ import com.mlhoste.magicpony.repository.ChildRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
-@RequestMapping(path = "/enfant")
+@RequestMapping(path = "/enfant/")
 public class ChildController {
 
     @Autowired
     private ChildRepository childRepository;
 
-    @GetMapping(path = "/add")
-    @ResponseBody
-    public String addNewChild(@RequestParam String firstName, @RequestParam String lastName) {
-        Child child = new Child();
-        child.setFirstName(firstName);
-        child.setLastName(lastName);
-        childRepository.save(child);
+    @GetMapping("{id}")
+    public String displayChild(@PathVariable(value="id") Long childId, Model model) {
+        model.addAttribute("child", childRepository.findOne(childId));
+        model.addAttribute("editMode", false);
 
-        return "Saved";
+        return "child";
     }
 
-    @RequestMapping(path = "/all")
-    public String getAllChildren(Model model) {
+    @PostMapping("delete/{id}")
+    public String deleteChild(@PathVariable(value="id") Long childId, Model model) {
+        childRepository.delete(childId);
 
+        return "redirect:/enfant/all";
+    }
+
+    @GetMapping("edit/{id}")
+    public String displayEditChild(@PathVariable(value="id") Long childId, Model model) {
+        model.addAttribute("child", childRepository.findOne(childId));
+        model.addAttribute("editMode", true);
+
+        return "child";
+    }
+
+    @PostMapping("edit/{id}")
+    public String editChild(@PathVariable(value="id") Long childId, Model model){
+        Child child = childRepository.findOne(childId);
+        //ToDo : get Child from IHM
+
+        childRepository.save(child);
+
+        model.addAttribute("child", child);
+
+        return "child";
+    }
+
+    @GetMapping("all")
+    public String displayAllChildren(Model model) {
         model.addAttribute("childrenList", childRepository.findAll());
         return "children";
     }

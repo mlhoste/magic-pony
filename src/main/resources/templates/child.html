@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="fragments/header :: header" ></head>
+    <body>
+        <div th:replace="fragments/navigation :: navigation" ></div>
+
+        <div class="container-fluid text-center">
+            <div class="row content">
+                <div class="col-sm-2 sidenav" />
+
+                <div class="col-sm-8 text-left">
+                    <div class="jumbotron">
+                        <h1 th:text="${child.firstName} + '&nbsp;' + ${child.lastName}" />
+
+                        <p th:text="${#dates.format(child.birthDate, 'dd MMMMMMMM yyyy')}" />
+                        <p th:text="${child.height} + ' cm'"></p>
+                        <p th:text="${child.weigth} + ' kg'"></p>
+                    </div>
+                 </div>
+
+                <div class="col-sm-2 sidenav" />
+            </div>
+        </div>
+
+        <footer th:replace="fragments/footer :: footer" />
+    </body>
+</html>
